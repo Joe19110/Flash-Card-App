@@ -1,6 +1,5 @@
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -80,7 +79,7 @@ public class NewCardFrame extends DefaultFrame implements FramesWithDeckBox{
         getContentPane().add(buttonPanel, bottomConstraints);
 
         saveNewCardButton.addActionListener(e -> {
-            if (!Objects.equals(wordTextbox.getText(), "") && !Objects.equals(defTextbox.getText(), "")) {
+            if (!Objects.equals(wordTextbox.getText(), "") && !Objects.equals(defTextbox.getText(), "")) { //Ensures textboxes are not empty
                 decks.get(deckBox.getSelectedIndex()).addCard(wordTextbox.getText(), defTextbox.getText());
                 JOptionPane.showMessageDialog(null,"Card successfully added.");
                 wordTextbox.setText("");

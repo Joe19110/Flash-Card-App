@@ -1,11 +1,8 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.awt.event.*;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ViewCardFrame extends DefaultFrame implements CardPanel {
@@ -72,6 +69,7 @@ public class ViewCardFrame extends DefaultFrame implements CardPanel {
             }
         });
         backButton.addActionListener(e -> {
+            //Reverts to previous window
             dispose();
             new DeckFrame(deck, decks, deadlines);
         });

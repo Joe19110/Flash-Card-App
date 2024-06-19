@@ -1,13 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StudyCardFrame extends DefaultFrame implements CardPanel {
@@ -96,7 +92,7 @@ public class StudyCardFrame extends DefaultFrame implements CardPanel {
 
             backButton.addActionListener(e -> {
                 dispose();
-                if (deck != null) {
+                if (deck != null) { //Checks which is the previous window
                     new DeckFrame(deck, decks, deadlines);
                 } else {
                     new HomeFrame(decks, deadlines);
@@ -104,7 +100,6 @@ public class StudyCardFrame extends DefaultFrame implements CardPanel {
             });
             blankButton.addActionListener(e -> {
                 updateCardStudyTime(0, index, cardsToStudy, wordLabel, defLabel, deck, decks, deadlines);
-
             });
             badButton.addActionListener(e -> {
                 updateCardStudyTime(1, index, cardsToStudy, wordLabel, defLabel, deck, decks, deadlines);
@@ -127,6 +122,7 @@ public class StudyCardFrame extends DefaultFrame implements CardPanel {
             });
         }
     }
+
     //Proceeds to the next card to study if it exists, and shows error if not.
     public void checkOutOfBounds(AtomicInteger index, ArrayList<Card> cardsToStudy, JLabel wordLabel, JLabel defLabel, Deck deck, ArrayList<Deck> decks, ArrayList<Deadline> deadlines) {
         if (index.get() != cardsToStudy.size() - 1) {
@@ -144,15 +140,18 @@ public class StudyCardFrame extends DefaultFrame implements CardPanel {
         }
 
     }
-    public void updateCardStudyTime(int min, AtomicInteger index, ArrayList<Card> cardsToStudy, JLabel wordLabel, JLabel defLabel, Deck deck, ArrayList<Deck> decks, ArrayList<Deadline> deadlines) {
-        cardsToStudy.get(index.get()).setStudyTime(ZonedDateTime.now().plusMinutes(min));
-        checkOutOfBounds(index, cardsToStudy, wordLabel, defLabel, deck, decks, deadlines);
-        decrementPerfectStreak(cardsToStudy, index);
-    }
+
     //Checks if there is a perfect streak and decrements if it exists
     public void decrementPerfectStreak(ArrayList<Card> cardsToStudy, AtomicInteger index) {
         if (cardsToStudy.get(index.get()).getPerfectStreak() != 0){
             cardsToStudy.get(index.get()).decrementPerfectStreak();
         }
+    }
+
+    //Updates study time of cards by certain increments
+    public void updateCardStudyTime(int min, AtomicInteger index, ArrayList<Card> cardsToStudy, JLabel wordLabel, JLabel defLabel, Deck deck, ArrayList<Deck> decks, ArrayList<Deadline> deadlines) {
+        cardsToStudy.get(index.get()).setStudyTime(ZonedDateTime.now().plusMinutes(min));
+        checkOutOfBounds(index, cardsToStudy, wordLabel, defLabel, deck, decks, deadlines);
+        decrementPerfectStreak(cardsToStudy, index);
     }
 }

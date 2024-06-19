@@ -1,19 +1,10 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
+import javax.swing.border.*;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.awt.event.*;
+import java.text.*;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -59,13 +50,15 @@ public class HomeFrame extends DefaultFrame {
         newDeckItem.addActionListener(e -> {
             //Launches window that prompts user to add a new deck
             String newDeck = JOptionPane.showInputDialog(null, "Enter a name for the new deck.");
-            if (newDeck != null && !newDeck.isEmpty()) {
-                decks.add(new Deck(newDeck, new ArrayList<>()));
-            } else {
-                JOptionPane.showMessageDialog(null, "Name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (!Objects.equals(newDeck, null)) {
+                if (!Objects.equals(newDeck, "")) {
+                    decks.add(new Deck(newDeck, new ArrayList<>()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                dispose();
+                new HomeFrame(decks, deadlines);
             }
-            dispose();
-            new HomeFrame(decks, deadlines);
         });
         newCardItem.addActionListener(e -> {
             //Launches New Card window if a deck exists

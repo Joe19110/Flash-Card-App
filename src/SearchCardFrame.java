@@ -1,11 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.awt.event.*;
+import java.util.*;
 
 public class SearchCardFrame extends DefaultFrame {
     public SearchCardFrame(ArrayList<Deck> decks, ArrayList<Deadline> deadlines) {
@@ -41,7 +37,6 @@ public class SearchCardFrame extends DefaultFrame {
             searchPanel.add(searchBar);
             generalPanel.add(searchPanel);
 
-
             //Creating card list panel
             DefaultList<String> cardList = new DefaultList<>(cards);
             cardList.setCellRenderer(new SearchCardListCellRenderer());
@@ -58,7 +53,7 @@ public class SearchCardFrame extends DefaultFrame {
                     //Separate list for filtered cards
                     ArrayList<Card> searchedCards = new ArrayList<>();
                     for (Card card : allCards) {
-                        if (card.getWord().startsWith(searchBar.getText())) {
+                        if (card.getWord().toLowerCase().startsWith(searchBar.getText().toLowerCase())) {
                             searchedCards.add(card);
                         }
                     }
@@ -81,7 +76,7 @@ public class SearchCardFrame extends DefaultFrame {
                     searchedCardList.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            popupCardMenu(e, searchedCardList, decks, deadlines, allCards);
+                        popupCardMenu(e, searchedCardList, decks, deadlines, allCards);
                         }
                     });
                 }
@@ -89,25 +84,30 @@ public class SearchCardFrame extends DefaultFrame {
             cardList.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    popupCardMenu(e, cardList, decks, deadlines, allCards);
+                popupCardMenu(e, cardList, decks, deadlines, allCards);
                 }
             });
         } else {
             JOptionPane.showMessageDialog(null, "Create a card first.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    //Launches the popup menu
     void popupCardMenu(MouseEvent e, JList<String> cardList, ArrayList<Deck> decks, ArrayList<Deadline> deadlines, ArrayList<Card> allCards) {
         int selectedCardIndex = cardList.getSelectedIndex();
         Card selectedCard;
-        if (selectedCardIndex != -1) {
+        if (selectedCardIndex != -1) { //Ensures there is a selected card
             String[] values = cardList.getSelectedValue().split("avalidseparator");
-            selectedCard = allCards.stream().filter(card -> Objects.equals(card.getWord(), values[0])).findFirst().orElse(null);
-            if (SwingUtilities.isRightMouseButton(e)) {
+            selectedCard = allCards.stream().filter(card -> Objects.equals(card.getWord(), values[0])).findFirst().orElse(null); //Searches for the selected card
+            if (SwingUtilities.isRightMouseButton(e)) { //At right click:
+
+                //Creating popup menu
                 JPopupMenu cardMenu = new JPopupMenu();
                 JMenuItem delItem = new JMenuItem("Delete Card");
                 JMenuItem editItem = new JMenuItem("Edit Card");
                 cardMenu.add(delItem);
                 cardMenu.add(editItem);
+
                 delItem.addActionListener(e1 -> {
                     int delAns = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Delete", JOptionPane.YES_NO_OPTION);
                     if (delAns == 0) {
@@ -117,6 +117,8 @@ public class SearchCardFrame extends DefaultFrame {
                                 break;
                             }
                         }
+
+                        //Closes all windows
                         for (Frame frame : Frame.getFrames()) {
                             frame.dispose();
                         }
@@ -135,6 +137,7 @@ public class SearchCardFrame extends DefaultFrame {
         }
 
     }
+
     //Edits appearance of list of searched cards in Search Card window
     static class SearchCardListCellRenderer extends NewDefaultListCellRenderer implements CellRendererOfCard {
         @Override

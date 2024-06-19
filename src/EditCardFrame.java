@@ -1,11 +1,8 @@
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 public class EditCardFrame extends DefaultFrame implements FramesWithDeckBox {
     public EditCardFrame(Card card, Deck deck, ArrayList<Deck> decks, ArrayList<Deadline> deadlines) {
