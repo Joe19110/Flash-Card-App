@@ -115,6 +115,7 @@ public class Main {
         UIManager.put("ScrollPane.font", font);
         UIManager.put("Viewport.font", font);
         UIManager.put("TextArea.font", font);
+        UIManager.put("TextField.font", font);
         UIManager.put("TitledBorder.font", font);
     }
 }
